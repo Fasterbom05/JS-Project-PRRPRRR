@@ -6,6 +6,5 @@ canvas {
   border: 2px solid black;
   height: 400px;
   width: 1000px;
-  align-items: center;
-  justify-content: center;
+  margin: 50px 120px;
 }
