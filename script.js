@@ -18,13 +18,13 @@ cat.src="Bild/gullig_cat.png"
 
 mus.onload=function(){
 }
-mus.src="Bild/mus.png"
+mus.src="Bild/mousetrans.png"
 
 let player1 = {
-  x:200,
-  y:200,
-  width:10,
-  height:10,
+  x:100,
+  y:100,
+  width:40,
+  height:40,
   dx:2,
   dy:2,
   directions: {
@@ -39,8 +39,8 @@ let player1 = {
 let player2 = {
   x:200,
   y:200,
-  width:10,
-  height:10,
+  width:40,
+  height:40,
   dx:2,
   dy:2,
   directions: {
@@ -84,7 +84,8 @@ document.addEventListener("keydown", (e) => {
       default:
     break;
   }
-});
+});   
+
 
 document.addEventListener("keyup", (e) => {
   switch (e.key) {
@@ -128,37 +129,45 @@ function animate() {
 
   // c.fillRect(playerX, playerY, playerWidth, playerHeight); // Draw player
 
-  c.drawImage(cat, player1.x, player1.y, 40, 40)
-  c.drawImage(mus, player2.x, player2.y, 40, 40)
+  c.drawImage(cat, player1.x, player1.y, player1.width, player1.height)
+  c.drawImage(mus, player2.x, player2.y, player2.width, player2.height)
  
 
   if (player1.directions.right && player1.x < SCREENWIDTH / 2 - player1.width) {
     player1.x += player1.dx; 
   }
-  else if (player1.directions.left && player1.x > 0) {
+  if (player1.directions.left && player1.x > 0) {
     player1.x -= player1.dx;
   }
-  else if (player1.directions.up && player1.y > 0) {
+  if (player1.directions.up && player1.y > 0) {
     player1.y -= player1.dy; 
   }
-  else if (player1.directions.down && player1.y < SCREENHEIGHT / 2 - player1.height) {
+  if (player1.directions.down && player1.y < SCREENHEIGHT / 2 - player1.height) {  
     player1.y += player1.dy;
   }
 
 
-  else if (player2.directions.right && player2.x < SCREENWIDTH / 2 - player2.width) {
+  if (player2.directions.right && player2.x < SCREENWIDTH / 2 - player2.width) {
     player2.x += player2.dx; 
   }
-  else if (player2.directions.left && player2.x > 0) {
+  if (player2.directions.left && player2.x > 0) {
     player2.x -= player2.dx;
   }
-  else if (player2.directions.up && player2.y > 0) {
+  if (player2.directions.up && player2.y > 0) {
     player2.y -= player2.dy; 
   }
-  else if (player2.directions.down && player2.y < SCREENHEIGHT / 2 - player2.height) {
+  if (player2.directions.down && player2.y < SCREENHEIGHT / 2 - player2.height) {
     player2.y += player2.dy;
   }
+
+
+  if (player1.x < player2.x + 35 && player1.x + 35 > player2.x && player1.y < player2.y + 35 && player1.y + 35  > player2.y) {
+    console.log("COLLISION")
+    alert("Game over")
+  }
 }
+
+
 // -------------------------------------
 // ------------ Start game ------------
 
