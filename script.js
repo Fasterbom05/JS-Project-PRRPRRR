@@ -7,6 +7,13 @@ let c = gameCanvas.getContext("2d"); // Drawing object
 gameCanvas.height = SCREENHEIGHT / 2;
 gameCanvas.width = SCREENWIDTH / 2;
 // -------------------------------------
+
+
+function restart() {
+  cancelAnimationFrame(animate)
+  animate();
+}
+
 // Player variables
 
 let cat = new Image();
@@ -19,6 +26,9 @@ cat.src="Bild/gullig_cat.png"
 mus.onload=function(){
 }
 mus.src="Bild/mousetrans.png"
+
+
+
 
 let player1 = {
   x:100,
@@ -127,6 +137,10 @@ function animate() {
   requestAnimationFrame(animate); // Run gameloop recursively
   c.clearRect(0, 0, innerWidth, innerHeight); // Clear screen
 
+  wall = c.fillRect(275,100, 50,100)
+
+
+
   // c.fillRect(playerX, playerY, playerWidth, playerHeight); // Draw player
 
   c.drawImage(cat, player1.x, player1.y, player1.width, player1.height)
@@ -160,13 +174,28 @@ function animate() {
     player2.y += player2.dy;
   }
 
-
-  if (player1.x < player2.x + 35 && player1.x + 35 > player2.x && player1.y < player2.y + 35 && player1.y + 35  > player2.y) {
-    console.log("COLLISION")
-    alert("Game over")
+  if (player1.x && player1.y > 275 &&  100) {
+    player1.dy = 0;
+    player1.dx = 0;
   }
+  
+  if (player1.x < player2.x + 30 && player1.x + 30 > player2.x && player1.y < player2.y + 30 && player1.y + 30  > player2.y) {
+    console.log("COLLISION")
+    alert("GAME OVER")
+    player1.x = 100;
+    player1.y = 100;
+    player2.x = 200;
+    player2.y = 200;
+    restart();
+    // GameOver()
+  }
+//   function GameOver(){
+//     c.canvas.removeEventListener('mousemove', function(event){
+//         canvasMouseOver(event);
+//     });
+//     ResetGlobalVariables();
+// }
 }
-
 
 // -------------------------------------
 // ------------ Start game ------------
