@@ -3,8 +3,16 @@ body {
 }
 
 canvas {
+  background: rgb(124, 20, 209);
+  background: linear-gradient(
+    119deg,
+    rgba(124, 20, 209, 1) 0%,
+    rgba(214, 25, 134, 1) 58%,
+    rgba(255, 32, 47, 1) 100%
+  );
   border: 2px solid black;
   height: 400px;
   width: 1000px;
   margin: 50px 120px;
+  object-fit: cover;
 }
