@@ -8,6 +8,22 @@ gameCanvas.height = SCREENHEIGHT / 2;
 gameCanvas.width = SCREENWIDTH / 2;
 // -------------------------------------
 
+let gameover = document.getElementById("gameover");
+let tryagain = document.getElementById("försökigen");
+
+document.addEventListener("keypress", function (event) {
+  if (event.key === "Enter") {
+    tryagain.click();
+  }
+});
+
+function stanna() {
+  player1.dx = 0;
+  player1.dy = 0;
+  player2.dx = 0;
+  player2.dy = 0;
+}
+
 function wallz() {
   let allaväggar = [];
 
@@ -159,14 +175,8 @@ function animate() {
   requestAnimationFrame(animate); // Run gameloop recursively
   c.clearRect(0, 0, innerWidth, innerHeight); // Clear screen
 
-  // wall = c.fillRect(275, 100, 10, 75);
-  // wall = c.fillRect(50, 50, 10, 50);
-  // wall = c.fillRect(350, 200, 10, 50);
-  // wall = c.fillRect(100, 175, 10, 50);
-  // wall = c.fillRect(200, 235, 10, 100);
-
   // c.fillRect(playerX, playerY, playerWidth, playerHeight); // Draw player
-
+  console.log(player1.x, player1.y);
   väggar.forEach((vägg) => {
     c.fillRect(vägg.x, vägg.y, vägg.bredd, vägg.höjd);
   });
@@ -175,18 +185,58 @@ function animate() {
   c.drawImage(mus, player2.x, player2.y, player2.width, player2.height);
 
   if (player1.directions.right && player1.x < SCREENWIDTH / 2 - player1.width) {
+    // väggar.forEach((vägg) => {
+    //   if (
+    //     // kOLLA DETTA INNAN VI KÄGGER PÅ HASTIGHET NÄR VI TRYCKER HÖGER
+    //     player1.x + player1.width <= vägg.x && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN VÄNSTER
+    //     player1.y >= vägg.y && // ÄR VI MELLAN REKTANGELNS KOORDINATER
+    //     player1.y <= vägg.y + vägg.höjd
+    //   ) {
+    //     player1.dx = 0;
+    //   }
+    // });
     player1.x += player1.dx;
   }
   if (player1.directions.left && player1.x > 0) {
+    // väggar.forEach((vägg) => {
+    //   if (
+    //     // kOLLA DETTA INNAN VI KÄGGER PÅ HASTIGHET NÄR VI TRYCKER HÖGER
+    //     player1.x + player1.width <= vägg.x && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN VÄNSTER
+    //     player1.y >= vägg.y && // ÄR VI MELLAN REKTANGELNS KOORDINATER
+    //     player1.y <= vägg.y + vägg.höjd
+    //   ) {
+    //     player1.dx = 0;
+    //   }
+    // });
     player1.x -= player1.dx;
   }
   if (player1.directions.up && player1.y > 0) {
+    // väggar.forEach((vägg) => {
+    //   if (
+    //     // kOLLA DETTA INNAN VI KÄGGER PÅ HASTIGHET NÄR VI TRYCKER HÖGER
+    //     player1.x + player1.width <= vägg.x && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN VÄNSTER
+    //     player1.y >= vägg.y && // ÄR VI MELLAN REKTANGELNS KOORDINATER
+    //     player1.y <= vägg.y + vägg.höjd
+    //   ) {
+    //     player1.dy = 0;
+    //   }
+    // });
     player1.y -= player1.dy;
   }
   if (
     player1.directions.down &&
     player1.y < SCREENHEIGHT / 2 - player1.height
   ) {
+    //   väggar.forEach((vägg) => {
+    //   if (
+    //     // kOLLA DETTA INNAN VI KÄGGER PÅ HASTIGHET NÄR VI TRYCKER HÖGER
+    //     player1.x + player1.width <= vägg.x && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN VÄNSTER
+    //     player1.y >= vägg.y && // ÄR VI MELLAN REKTANGELNS KOORDINATER
+    //     player1.y <= vägg.y + vägg.höjd
+    //   ) {
+    //     player1.dy = 0;
+    //   }
+    // });
     player1.y += player1.dy;
   }
 
@@ -211,27 +261,32 @@ function animate() {
     player1.dx = 0;
   }
 
+  // väggar.forEach((vägg) => {
+  //   if (
+  //     // kOLLA DETTA INNAN VI KÄGGER PÅ HASTIGHET NÄR VI TRYCKER HÖGER
+  //     player2.x + player2.width <= vägg.x && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN VÄNSTER
+  //     player2.y >= vägg.y && // ÄR VI MELLAN REKTANGELNS KOORDINATER
+  //     player2.y <= vägg.y + vägg.höjd
+  //   ) {
+  //     player2.dx = 0;
+  //     player2.dy = 0;
+  //   }
+  // });
+
   if (
     player1.x < player2.x + 30 &&
     player1.x + 30 > player2.x &&
     player1.y < player2.y + 30 &&
     player1.y + 30 > player2.y
   ) {
-    console.log("COLLISION");
-    alert("GAME OVER");
-    player1.x = 100;
-    player1.y = 100;
-    player2.x = 200;
+    gameover.style.display = "block";
+    tryagain.style.display = "flex";
+    player1.x = 430;
+    player1.y = 200;
+    player2.x = 300;
     player2.y = 200;
-    restart();
-    // GameOver()
+    stanna();
   }
-  //   function GameOver(){
-  //     c.canvas.removeEventListener('mousemove', function(event){
-  //         canvasMouseOver(event);
-  //     });
-  //     ResetGlobalVariables();
-  // }
 }
 
 // -------------------------------------
