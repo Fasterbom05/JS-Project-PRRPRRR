@@ -1,3 +1,17 @@
+.navbar {
+  background-color: black;
+  opacity: 90%;
+  text-align: center;
+  text-decoration: underline;
+  color: white;
+}
+
+.spelDiv {
+  width: 100vw;
+  height: 100vh;
+  border: solid black;
+}
+
 body {
   margin: 0px;
   display: flex;
