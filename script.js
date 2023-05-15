@@ -8,6 +8,7 @@ gameCanvas.height = SCREENHEIGHT / 2;
 gameCanvas.width = SCREENWIDTH / 2;
 // -------------------------------------
 
+let krockar = false;
 let gameover = document.getElementById("gameover");
 let tryagain = document.getElementById("försökigen");
 
@@ -177,7 +178,7 @@ function animate() {
   c.clearRect(0, 0, innerWidth, innerHeight); // Clear screen
 
   // c.fillRect(playerX, playerY, playerWidth, playerHeight); // Draw player
-  console.log(player1.x, player1.y);
+
   väggar.forEach((vägg) => {
     c.fillRect(vägg.x, vägg.y, vägg.bredd, vägg.höjd);
   });
@@ -185,16 +186,16 @@ function animate() {
   c.drawImage(cat, player1.x, player1.y, player1.width, player1.height);
   c.drawImage(mus, player2.x, player2.y, player2.width, player2.height);
 
-  if (player1.directions.right && player1.x < SCREENWIDTH / 2 - player1.width) {
+  if (player1.directions.right && player1.x < SCREENWIDTH - player1.width) {
     krockar = false;
     väggar.forEach((vägg) => {
       if (
         // kOLLA DETTA INNAN VI KÄGGER PÅ HASTIGHET NÄR VI TRYCKER HÖGER
-        player1.x + player1.width >= vägg.x && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN VÄNSTER
+        player1.x + player1.width >= vägg.x && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN HÖGER
+        player1.x < vägg.x &&
         player1.y + player1.height >= vägg.y && // ÄR VI MELLAN REKTANGELNS KOORDINATER
         player1.y <= vägg.y + vägg.höjd
       ) {
-        // player1.dx = 0;
         krockar = true;
         console.log("något är i vägen när vi går till höger");
       }
@@ -209,12 +210,12 @@ function animate() {
       if (
         // kOLLA DETTA INNAN VI KÄGGER PÅ HASTIGHET NÄR VI TRYCKER HÖGER
         player1.x <= vägg.x + vägg.bredd && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN VÄNSTER
+        player1.x + player1.width > vägg.x &&
         player1.y + player1.height >= vägg.y && // ÄR VI MELLAN REKTANGELNS KOORDINATER
         player1.y <= vägg.y + vägg.höjd
       ) {
         krockar = true;
         console.log("något är i vägen när vi går till vänster");
-        // player1.dx = 0;
       }
     });
     if (!krockar) {
@@ -223,18 +224,17 @@ function animate() {
   }
   if (player1.directions.up && player1.y > 0) {
     krockar = false;
-    väggar.forEach((vägg) => {
-      if (
-        // kOLLA DETTA INNAN VI KÄGGER PÅ HASTIGHET NÄR VI TRYCKER HÖGER
-        player1.x + player1.width >= vägg.x && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN VÄNSTER
-        player1.y + player1.height >= vägg.y && // ÄR VI MELLAN REKTANGELNS KOORDINATER
-        player1.y <= vägg.y + vägg.höjd
-      ) {
-        // player1.dx = 0;
-        krockar = true;
-        console.log("något är i vägen när vi går till höger");
-      }
-    });
+    // väggar.forEach((vägg) => {
+    //   if (
+    //     // kOLLA DETTA INNAN VI KÄGGER PÅ HASTIGHET NÄR VI TRYCKER HÖGER
+    //     player1.x + player1.width >= vägg.x && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN VÄNSTER
+    //     player1.y + player1.height >= vägg.y && // ÄR VI MELLAN REKTANGELNS KOORDINATER
+    //     player1.y <= vägg.y + vägg.höjd
+    //   ) {
+    //     krockar = true;
+    //     console.log("något är i vägen när vi går till höger");
+    //   }
+    // });
     if (!krockar) {
       player1.y -= player1.dy;
     }
@@ -244,22 +244,21 @@ function animate() {
     player1.y < SCREENHEIGHT / 2 - player1.height
   ) {
     krockar = false;
-    väggar.forEach((vägg) => {
-      if (
-        // kOLLA DETTA INNAN VI KÄGGER PÅ HASTIGHET NÄR VI TRYCKER HÖGER
-        player1.x <= vägg.x + vägg.bredd && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN VÄNSTER
-        player1.y + player1.height >= vägg.y && // ÄR VI MELLAN REKTANGELNS KOORDINATER
-        player1.y <= vägg.y + vägg.höjd
-      ) {
-        krockar = true;
-        console.log("något är i vägen när vi går till vänster");
-        // player1.dx = 0;
-      }
-    });
-  }
-
-  if (!krockar) {
-    player1.y += player1.dy;
+    // väggar.forEach((vägg) => {
+    //   if (
+    //     // kOLLA DETTA INNAN VI KÄGGER PÅ HASTIGHET NÄR VI TRYCKER HÖGER
+    //     player1.x >= vägg.x && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN VÄNSTER
+    //     player1.x <= vägg.x + vägg.bredd &&
+    //     player1.y + player1.height >= vägg.y && // ÄR VI MELLAN REKTANGELNS KOORDINATER
+    //     player1.y <= vägg.y + vägg.höjd
+    //   ) {
+    //     krockar = true;
+    //     console.log("något är i vägen när vi går till vänster");
+    //   }
+    // });
+    if (!krockar) {
+      player1.y += player1.dy;
+    }
   }
 
   if (player2.directions.right && player2.x < SCREENWIDTH / 2 - player2.width) {
@@ -267,11 +266,10 @@ function animate() {
     väggar.forEach((vägg) => {
       if (
         // kOLLA DETTA INNAN VI KÄGGER PÅ HASTIGHET NÄR VI TRYCKER HÖGER
-        player2.x + player2.width >= vägg.x && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN VÄNSTER
-        player2.y + player2.height >= vägg.y && // ÄR VI MELLAN REKTANGELNS KOORDINATER
+        player2.x + player2.width <= vägg.x && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN VÄNSTER
+        player2.y + player2.height <= vägg.y && // ÄR VI MELLAN REKTANGELNS KOORDINATER
         player2.y <= vägg.y + vägg.höjd
       ) {
-        // player1.dx = 0;
         krockar = true;
         console.log("något är i vägen när vi går till höger");
       }
@@ -279,84 +277,80 @@ function animate() {
     if (!krockar) {
       player2.x += player2.dx;
     }
-
-    if (player2.directions.left && player2.x > 0) {
-      krockar = false;
-      väggar.forEach((vägg) => {
-        if (
-          // kOLLA DETTA INNAN VI KÄGGER PÅ HASTIGHET NÄR VI TRYCKER HÖGER
-          player2.x <= vägg.x + vägg.bredd && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN VÄNSTER
-          player2.y + player2.height >= vägg.y && // ÄR VI MELLAN REKTANGELNS KOORDINATER
-          player2.y <= vägg.y + vägg.höjd
-        ) {
-          krockar = true;
-          console.log("något är i vägen när vi går till vänster");
-          // player1.dx = 0;
-        }
-      });
-      if (!krockar) {
-        player2.x -= player2.dx;
-      }
-    }
-    if (player2.directions.up && player2.y > 0) {
-      krockar = false;
-      väggar.forEach((vägg) => {
-        if (
-          // kOLLA DETTA INNAN VI KÄGGER PÅ HASTIGHET NÄR VI TRYCKER HÖGER
-          player2.x + player2.width >= vägg.x && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN VÄNSTER
-          player2.y + player2.height >= vägg.y && // ÄR VI MELLAN REKTANGELNS KOORDINATER
-          player2.y <= vägg.y + vägg.höjd
-        ) {
-          // player1.dx = 0;
-          krockar = true;
-          console.log("något är i vägen när vi går till höger");
-        }
-      });
-      if (!krockar) {
-        player2.y -= player2.dy;
-      }
-    }
-
-    if (
-      player2.directions.down &&
-      player2.y < SCREENHEIGHT / 2 - player2.height
-    ) {
-      krockar = false;
-      väggar.forEach((vägg) => {
-        if (
-          // kOLLA DETTA INNAN VI KÄGGER PÅ HASTIGHET NÄR VI TRYCKER HÖGER
-          player2.x <= vägg.x + vägg.bredd && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN VÄNSTER
-          player2.y + player2.height >= vägg.y && // ÄR VI MELLAN REKTANGELNS KOORDINATER
-          player2.y <= vägg.y + vägg.höjd
-        ) {
-          krockar = true;
-          console.log("något är i vägen när vi går till vänster");
-        }
-      });
-      if (!krockar) {
-        player2.y += player2.dy;
-      }
-
-      if (player1.x && player1.y > 275 && 100) {
-        player1.dy = 0;
-        player1.dx = 0;
-      }
-
+  }
+  if (player2.directions.left && player2.x > 0) {
+    krockar = false;
+    väggar.forEach((vägg) => {
       if (
-        player1.x < player2.x + 30 &&
-        player1.x + 30 > player2.x &&
-        player1.y < player2.y + 30 &&
-        player1.y + 30 > player2.y
+        // kOLLA DETTA INNAN VI KÄGGER PÅ HASTIGHET NÄR VI TRYCKER HÖGER
+        player2.x >= vägg.x + vägg.bredd && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN VÄNSTER
+        player2.y + player2.height <= vägg.y && // ÄR VI MELLAN REKTANGELNS KOORDINATER
+        player2.y >= vägg.y + vägg.höjd
       ) {
-        gameover.style.display = "block";
-        tryagain.style.display = "flex";
-        player1.x = 430;
-        player1.y = 200;
-        player2.x = 300;
-        player2.y = 200;
-        stanna();
+        krockar = true;
+        console.log("något är i vägen när vi går till vänster");
       }
+    });
+    if (!krockar) {
+      player2.x -= player2.dx;
     }
+  }
+  if (player2.directions.up && player2.y > 0) {
+    krockar = false;
+    väggar.forEach((vägg) => {
+      if (
+        // kOLLA DETTA INNAN VI KÄGGER PÅ HASTIGHET NÄR VI TRYCKER HÖGER
+        player2.x + player2.width <= vägg.x && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN VÄNSTER
+        player2.y + player2.height <= vägg.y && // ÄR VI MELLAN REKTANGELNS KOORDINATER
+        player2.y >= vägg.y + vägg.höjd
+      ) {
+        krockar = true;
+        console.log("något är i vägen när vi går till up");
+      }
+    });
+    if (!krockar) {
+      player2.y -= player2.dy;
+    }
+  }
+
+  if (
+    player2.directions.down &&
+    player2.y < SCREENHEIGHT / 2 - player2.height
+  ) {
+    krockar = false;
+    väggar.forEach((vägg) => {
+      if (
+        // kOLLA DETTA INNAN VI KÄGGER PÅ HASTIGHET NÄR VI TRYCKER HÖGER
+        player2.x >= vägg.x + vägg.bredd && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN VÄNSTER
+        player2.y + player2.height <= vägg.y && // ÄR VI MELLAN REKTANGELNS KOORDINATER
+        player2.y >= vägg.y + vägg.höjd
+      ) {
+        krockar = true;
+        console.log("något är i vägen när vi går till ned");
+      }
+    });
+    if (!krockar) {
+      player2.y += player2.dy;
+    }
+  }
+  if (player1.x && player1.y > 275 && 100) {
+    player1.dy = 0;
+    player1.dx = 0;
+  }
+
+  if (
+    player1.x < player2.x + 30 &&
+    player1.x + 30 > player2.x &&
+    player1.y < player2.y + 30 &&
+    player1.y + 30 > player2.y
+  ) {
+    gameover.style.display = "block";
+    tryagain.style.display = "flex";
+    player1.x = 430;
+    player1.y = 200;
+    player2.x = 300;
+    player2.y = 200;
+    stanna();
   }
 }
 
