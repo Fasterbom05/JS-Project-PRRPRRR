@@ -9,7 +9,12 @@
 .spelDiv {
   width: 100vw;
   height: 100vh;
+<<<<<<< HEAD
   text-align: center;
+=======
+  border: solid black;
+  
+>>>>>>> cbd684182b378149459dccbbe0e3cb5a4be35861
 }
 
 p {
@@ -93,6 +98,10 @@ canvas {
   animation: appear 2s;
   animation-fill-mode: forwards;
   opacity: 0%;
+}
+
+section a {
+  margin-left: 7%;
 }
 
 @keyframes appear {
