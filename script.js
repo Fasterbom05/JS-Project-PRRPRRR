@@ -13,25 +13,25 @@ let gameover = document.getElementById("gameover");
 let tryagain = document.getElementById("försökigen");
 let sekunder = document.getElementById("seconds");
 
-document.addEventListener("keypress", function (event) {
+document.addEventListener("keypress", function (event) { // Gör så att spelaren kan börja om spelet vid ett knapptryck
   if (event.key === "Enter") {
     tryagain.click();
   }
 });
 
-function stanna() {
+function stanna() { // ser till att spelarna inte kan röra på sig 
   player1.dx = 0;
   player1.dy = 0;
   player2.dx = 0;
   player2.dy = 0;
 }
 
-function wallz() {
+function wallz() { // Horisontell och vertikala väggar genereras här!
   let allaväggar = [];
 
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 2 /*Hur många väggar som genereras*/; i++) {
     let x_kordinat = Math.floor(Math.random() * gameCanvas.width);
-    let y_kordinat = Math.floor(Math.random() * gameCanvas.height);
+    let y_kordinat = Math.floor(Math.random() * gameCanvas.height); 
     let vägg = {
       x: x_kordinat,
       y: y_kordinat,
@@ -41,7 +41,7 @@ function wallz() {
     allaväggar.push(vägg);
     console.log(allaväggar);
   }
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 2 /*Hur många väggar som genereras*/; i++) {
     let x_kordinat = Math.floor(Math.random() * gameCanvas.width);
     let y_kordinat = Math.floor(Math.random() * gameCanvas.height);
     let vägg = {
@@ -55,16 +55,11 @@ function wallz() {
   return allaväggar;
 }
 
-function restart() {
-  cancelAnimationFrame(animate);
-  location.reload();
-}
-
-function playerStart() {
+function playerStart() { // Genererar startpositioner för spelarna
   let randomX = Math.floor(Math.random() * 570)
   let randomY = Math.floor(Math.random() * 250)
 
-  return [randomX, randomY]
+  return [randomX, randomY] // returnerar x och y kordinaterna
 }
 
 // Player variables
@@ -78,6 +73,7 @@ cat.src = "Bild/gullig_cat.png";
 mus.onload = function () {};
 mus.src = "Bild/mousetrans.png";
 
+// Startpositionerna hämtas från funktionen playerStart() och sparas i variabler som sedan implementeras till spelarna
 let player1_koordinater = playerStart();
 let player1_koordinaterX = player1_koordinater[0];
 let player1_koordinaterY = player1_koordinater[1];
@@ -183,7 +179,6 @@ document.addEventListener("keyup", (e) => {
 });
 
 let väggar = wallz();
-console.log(väggar);
 
 // ------------ Animation ------------
 // -------------------------------------
@@ -192,19 +187,21 @@ console.log(väggar);
 function animate() {
   requestAnimationFrame(animate); // Run gameloop recursively
   c.clearRect(0, 0, innerWidth, innerHeight); // Clear screen
-  console.log(player1.x, player1.y)
+
   // c.fillRect(playerX, playerY, playerWidth, playerHeight); // Draw player
 
-  väggar.forEach((vägg) => {
+  väggar.forEach((vägg) => { // väggarna ritas ut
     c.fillRect(vägg.x, vägg.y, vägg.bredd, vägg.höjd);
   });
 
+
+  // Ritar bild för katt och råtta 
   c.drawImage(cat, player1.x, player1.y, player1.width, player1.height);
   c.drawImage(mus, player2.x, player2.y, player2.width, player2.height);
 
   if (player1.directions.right && player1.x < SCREENWIDTH/2 - player1.width) {
     krockar = false;
-    väggar.forEach((vägg) => {
+    väggar.forEach((vägg) => { // Kollar efter krockar med väggar
       if (
         // kOLLA DETTA INNAN VI KÄGGER PÅ HASTIGHET NÄR VI TRYCKER HÖGER
         player1.x + player1.width >= vägg.x && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN HÖGER
@@ -222,7 +219,7 @@ function animate() {
   }
   if (player1.directions.left && player1.x > 0) {
     krockar = false;
-    väggar.forEach((vägg) => {
+    väggar.forEach((vägg) => { // Kollar efter krockar med väggar
       if (
         // kOLLA DETTA INNAN VI KÄGGER PÅ HASTIGHET NÄR VI TRYCKER HÖGER
         player1.x <= vägg.x + vägg.bredd && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN VÄNSTER
@@ -240,12 +237,13 @@ function animate() {
   }
   if (player1.directions.up && player1.y - 25 > 0) {
     krockar = false;
-    // väggar.forEach((vägg) => {
+    // BROKEN
+    // väggar.forEach((vägg) => { // Kollar efter krockar med väggar
     //   if (
     //     player1.x <= vägg.x + vägg.bredd && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN VÄNSTER
     //     player1.x + player1.width > vägg.x &&
-    //     player1.y >= vägg.y + vägg.höjd && // ÄR VI MELLAN REKTANGELNS KOORDINATER
-    //     player1.y + player1.höjd <= vägg.y
+    //     player1.y <= vägg.y + vägg.bredd && // ÄR VI MELLAN REKTANGELNS KOORDINATER
+    //     player1.y + player1.height >= vägg.y
     //   ) {
     //     krockar = true;
     //     console.log("något är i vägen när vi går up");
@@ -260,7 +258,7 @@ function animate() {
     player1.y < SCREENHEIGHT / 2 - 70
   ) {
     krockar = false;
-    väggar.forEach((vägg) => {
+    väggar.forEach((vägg) => { // Kollar efter krockar med väggar
       if (
         player1.x <= vägg.x + vägg.bredd && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN VÄNSTER
         player1.x + player1.width > vägg.x &&
@@ -278,7 +276,7 @@ function animate() {
 
   if (player2.directions.right && player2.x < SCREENWIDTH / 2 - player2.width) {
     krockar = false;
-    väggar.forEach((vägg) => {
+    väggar.forEach((vägg) => { // Kollar efter krockar med väggar
       if (
          // kOLLA DETTA INNAN VI KÄGGER PÅ HASTIGHET NÄR VI TRYCKER HÖGER
          player2.x + player2.width >= vägg.x && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN HÖGER
@@ -296,7 +294,7 @@ function animate() {
   }
   if (player2.directions.left && player2.x > 0) {
     krockar = false;
-    väggar.forEach((vägg) => {
+    väggar.forEach((vägg) => { // Kollar efter krockar med väggar
       if (
         // kOLLA DETTA INNAN VI KÄGGER PÅ HASTIGHET NÄR VI TRYCKER HÖGER
         player2.x <= vägg.x + vägg.bredd && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN VÄNSTER
@@ -314,7 +312,7 @@ function animate() {
   }
   if (player2.directions.up && player2.y - 25 > 0) {
     krockar = false;
-    // väggar.forEach((vägg) => {
+    // väggar.forEach((vägg) => { // Kollar efter krockar med väggar
     //   if (
     //     // // kOLLA DETTA INNAN VI KÄGGER PÅ HASTIGHET NÄR VI TRYCKER HÖGER
     //     // player2.x + player2.width <= vägg.x && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN VÄNSTER
@@ -335,7 +333,7 @@ function animate() {
     player2.y < SCREENHEIGHT / 2 - 70
   ) {
     krockar = false;
-    väggar.forEach((vägg) => {
+    väggar.forEach((vägg) => { // Kollar efter krockar med väggar
       if (
         player2.x <= vägg.x + vägg.bredd && // FÖRSÖKER VI GÅ IGENOM VÄGG FRÅN VÄNSTER
         player2.x + player2.width > vägg.x &&
