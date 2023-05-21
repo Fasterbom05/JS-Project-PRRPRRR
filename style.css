@@ -8,7 +8,7 @@
 
 .spelDiv {
   width: 100vw;
-  height: 100vh;
+  height: 150vh;
   text-align: center;
   border: solid black;
 }
@@ -24,21 +24,20 @@ p {
 }
 
 button {
-  background-color: aquamarine;
+  background-color: rgb(77, 210, 219);
   color: cornflowerblue;
-  width: 8%;
-  height: 10%;
-  font-size: 20px;
-  box-shadow: 3px 4px 2px rgb(140, 138, 138);
+  width: 15%;
+  height: 15%;
+  font-size: 30px;
+  box-shadow: 2px 5px 2px rgb(140, 138, 138);
 }
 
 button:hover {
-  width: 10%;
+  width: 18%;
 }
 
 .bilder {
-  display: flex;
-  justify-content: space-between;
+  display: block;
 }
 
 /* ------------------------------------------ */
@@ -94,10 +93,6 @@ canvas {
   animation: appear 2s;
   animation-fill-mode: forwards;
   opacity: 0%;
-}
-
-section a {
-  margin-left: 7%;
 }
 
 @keyframes appear {
