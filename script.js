@@ -59,6 +59,13 @@ function restart() {
   location.reload();
 }
 
+function playerStart() {
+  let randomX = Math.floor(Math.random() * 570)
+  let randomY = Math.floor(Math.random() * 250)
+
+  return [randomX, randomY]
+}
+
 // Player variables
 
 let cat = new Image();
@@ -70,9 +77,17 @@ cat.src = "Bild/gullig_cat.png";
 mus.onload = function () {};
 mus.src = "Bild/mousetrans.png";
 
+let player1_koordinater = playerStart();
+let player1_koordinaterX = player1_koordinater[0];
+let player1_koordinaterY = player1_koordinater[1];
+
+let player2_koordinater = playerStart();
+let player2_koordinaterX = player2_koordinater[0];
+let player2_koordinaterY = player2_koordinater[1];
+
 let player1 = {
-  x: 100,
-  y: 100,
+  x: player1_koordinaterX,
+  y: player1_koordinaterY,
   width: 40,
   height: 40,
   dx: 2,
@@ -86,8 +101,8 @@ let player1 = {
 };
 
 let player2 = {
-  x: 200,
-  y: 200,
+  x: player2_koordinaterX,
+  y: player2_koordinaterY,
   width: 40,
   height: 40,
   dx: 2,
@@ -176,7 +191,7 @@ console.log(väggar);
 function animate() {
   requestAnimationFrame(animate); // Run gameloop recursively
   c.clearRect(0, 0, innerWidth, innerHeight); // Clear screen
-
+  console.log(player1.x, player1.y)
   // c.fillRect(playerX, playerY, playerWidth, playerHeight); // Draw player
 
   väggar.forEach((vägg) => {
@@ -186,7 +201,7 @@ function animate() {
   c.drawImage(cat, player1.x, player1.y, player1.width, player1.height);
   c.drawImage(mus, player2.x, player2.y, player2.width, player2.height);
 
-  if (player1.directions.right && player1.x < SCREENWIDTH - player1.width) {
+  if (player1.directions.right && player1.x < SCREENWIDTH/2 - player1.width) {
     krockar = false;
     väggar.forEach((vägg) => {
       if (
@@ -222,7 +237,7 @@ function animate() {
       player1.x -= player1.dx;
     }
   }
-  if (player1.directions.up && player1.y > 0) {
+  if (player1.directions.up && player1.y - 25 > 0) {
     krockar = false;
     // väggar.forEach((vägg) => {
     //   if (
@@ -241,7 +256,7 @@ function animate() {
   }
   if (
     player1.directions.down &&
-    player1.y < SCREENHEIGHT / 2 - player1.height
+    player1.y < SCREENHEIGHT / 2 - 70
   ) {
     krockar = false;
     väggar.forEach((vägg) => {
@@ -296,7 +311,7 @@ function animate() {
       player2.x -= player2.dx;
     }
   }
-  if (player2.directions.up && player2.y > 0) {
+  if (player2.directions.up && player2.y - 25 > 0) {
     krockar = false;
     // väggar.forEach((vägg) => {
     //   if (
@@ -316,7 +331,7 @@ function animate() {
 
   if (
     player2.directions.down &&
-    player2.y < SCREENHEIGHT / 2 - player2.height
+    player2.y < SCREENHEIGHT / 2 - 70
   ) {
     krockar = false;
     väggar.forEach((vägg) => {

@@ -10,6 +10,7 @@
   width: 100vw;
   height: 100vh;
   border: solid black;
+  
 }
 
 body {
@@ -61,6 +62,10 @@ canvas {
   animation: appear 2s;
   animation-fill-mode: forwards;
   opacity: 0%;
+}
+
+section a {
+  margin-left: 7%;
 }
 
 @keyframes appear {
