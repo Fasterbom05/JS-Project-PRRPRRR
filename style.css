@@ -50,6 +50,7 @@ body {
 }
 
 canvas {
+  position: absolute;
   background: rgb(124, 20, 209);
   background: linear-gradient(
     119deg,
@@ -67,6 +68,7 @@ canvas {
 
 #gameover {
   display: none;
+  z-index: 1;
   position: absolute;
   width: 400px;
   height: 250px;
@@ -78,6 +80,7 @@ canvas {
 }
 
 #försökigen {
+  z-index: 1;
   display: none;
   text-align: center;
   font-weight: bolder;
@@ -95,6 +98,19 @@ canvas {
   opacity: 0%;
 }
 
+.h3-small {
+  font-size: small;
+  width: 15%;
+}
+#hurMångaVäggar {
+  width: 15%;
+}
+
+section {
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+}
 @keyframes appear {
   0% {
     opacity: 0%;
@@ -110,11 +126,13 @@ canvas {
 /* timer_________________ */
 
 #clock {
-  width: 10%;
-  height: 10%;
+  width: 100px;
+  height: 100px;
+  margin-top: 200px;
   border-radius: 50%;
   background-color: lightgrey;
-  margin: auto;
+  margin-left: 50%;
+  display: block;
 }
 
 span {

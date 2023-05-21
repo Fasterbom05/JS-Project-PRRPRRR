@@ -19,6 +19,21 @@ document.addEventListener("keypress", function (event) { // Gör så att spelare
   }
 });
 
+function sparaValdaVäggar() {
+  let användarInput = document.getElementById("hurMångaVäggar");
+  let nummer = användarInput.value / 2;
+  localStorage.setItem("nummer", nummer)
+  location.reload()
+}
+
+function hämtaValdaVäggar() {
+  let sparadNummer = localStorage.getItem("nummer");
+  if (sparadNummer) {
+    document.getElementById("hurMångaVäggar").value = sparadNummer;
+  }
+  return sparadNummer
+}
+
 function stanna() { // ser till att spelarna inte kan röra på sig 
   player1.dx = 0;
   player1.dy = 0;
@@ -29,7 +44,7 @@ function stanna() { // ser till att spelarna inte kan röra på sig
 function wallz() { // Horisontell och vertikala väggar genereras här!
   let allaväggar = [];
 
-  for (let i = 0; i < 2 /*Hur många väggar som genereras*/; i++) {
+  for (let i = 0; i < hämtaValdaVäggar() /*Hur många väggar som genereras*/; i++) {
     let x_kordinat = Math.floor(Math.random() * gameCanvas.width);
     let y_kordinat = Math.floor(Math.random() * gameCanvas.height); 
     let vägg = {
@@ -41,7 +56,7 @@ function wallz() { // Horisontell och vertikala väggar genereras här!
     allaväggar.push(vägg);
     console.log(allaväggar);
   }
-  for (let i = 0; i < 2 /*Hur många väggar som genereras*/; i++) {
+  for (let i = 0; i < hämtaValdaVäggar() /*Hur många väggar som genereras*/; i++) {
     let x_kordinat = Math.floor(Math.random() * gameCanvas.width);
     let y_kordinat = Math.floor(Math.random() * gameCanvas.height);
     let vägg = {
@@ -52,6 +67,8 @@ function wallz() { // Horisontell och vertikala väggar genereras här!
     };
     allaväggar.push(vägg);
   }
+
+
   return allaväggar;
 }
 
@@ -189,7 +206,7 @@ function animate() {
   c.clearRect(0, 0, innerWidth, innerHeight); // Clear screen
 
   // c.fillRect(playerX, playerY, playerWidth, playerHeight); // Draw player
-
+  
   väggar.forEach((vägg) => { // väggarna ritas ut
     c.fillRect(vägg.x, vägg.y, vägg.bredd, vägg.höjd);
   });
