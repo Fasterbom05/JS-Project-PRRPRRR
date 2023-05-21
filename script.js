@@ -28,9 +28,7 @@ function sparaValdaVäggar() {
 
 function hämtaValdaVäggar() {
   let sparadNummer = localStorage.getItem("nummer");
-  if (sparadNummer) {
-    document.getElementById("hurMångaVäggar").value = sparadNummer;
-  }
+
   return sparadNummer
 }
 
