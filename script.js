@@ -11,6 +11,7 @@ gameCanvas.width = SCREENWIDTH / 2;
 let krockar = false;
 let gameover = document.getElementById("gameover");
 let tryagain = document.getElementById("försökigen");
+let sekunder = document.getElementById("seconds");
 
 document.addEventListener("keypress", function (event) {
   if (event.key === "Enter") {
@@ -347,13 +348,40 @@ function animate() {
   ) {
     gameover.style.display = "block";
     tryagain.style.display = "flex";
+    sekunder.style.display = "none";
     player1.x = 430;
     player1.y = 200;
     player2.x = 300;
     player2.y = 200;
+    console.log("Katten vann!");
     stanna();
   }
 }
+
+
+timeLeft = 15;
+
+function countdown() {
+  setTimeout(() => { 
+    console.log("Musen vann");
+    gameover.style.display = "block";
+    tryagain.style.display = "flex";
+    sekunder.style.display = "none";
+    player1.x = 430;
+    player1.y = 200;
+    player2.x = 300;
+    player2.y = 200; 
+    stanna();  }, 15000);
+  timeLeft--;
+  document.getElementById("seconds").innerHTML = String( timeLeft );
+  if (timeLeft > 0) {
+    setTimeout(countdown, 1000);
+  }
+  
+};
+
+setTimeout(countdown, 1000);
+
 
 // -------------------------------------
 // ------------ Start game ------------
